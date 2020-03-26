@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 import pylab
-from pprint import pprint 
 
 def import_tableau_float_csv(filename):
     tableau_valeur=[]
@@ -21,8 +20,9 @@ def import_tableau_float_csv(filename):
 
 def tab(matrice):
     shpeM=np.shape(matrice)
+    print(shpeM)
     y = range(shpeM[0]) # definition des y ( longeur de la barre)
-    x = np.array(range(100)) # definition des x (temps)np.linspace
+    x = np.array(range(shpeM[1]))  # definition des x (temps)np.linspace
     #x= dt_mesure*x #echelle du temps
 
     X, Y = np.meshgrid(x, y)    # grille
@@ -33,7 +33,7 @@ def tab(matrice):
     ax = plt.axes(projection='3d') # creation d'un systeme d'axe
     ax.plot_surface(X, Y, Z, color='red',edgecolor='none',ccount=50,rcount=50, cmap="Spectral")
     ax.set_title('tableau de mesure');
-    ax.set_xlabel('temps')
+    ax.set_xlabel('temps (s)')
     ax.set_ylabel('longeur')
     ax.set_zlabel('temperature');
     ax.view_init(45, 45)
@@ -45,7 +45,7 @@ def tab(matrice):
 
 
 
-precision = int(input("nombre de sinus: "))+1
+precision = 14#int(input("nombre de sinus: "))+1
 
 vecteur= np.array(import_tableau_float_csv('vecteur.csv'))
 x = np.array(range(200))
@@ -70,25 +70,27 @@ np.set_printoptions(suppress=True)
 alpha0 =0.0495
 sin_tot=np.sin(coef[0][0]*0*np.pi/2*x/100)
 
+"""
 t=float(input("t: "))
 for k in k_v:
     sin_tot[x]+=coef[0][k]*np.sin(k*np.pi/2*x/100)*np.exp(-alpha0*(np.pi/2*k)**2*t)
 
 print(sin_tot)
-
 """
+
 M= vecteur
-print(M)
+print(np.shape(M))
 
-
-for t in range(100):
+dt = 0.0001
+for t in range(0,10000,100):
     for k in k_v:
-       sin_tot[x]+=coef[0][k]*np.sin(k*np.pi/2*x/100)*np.exp(-alpha0*(np.pi/2*k)**2*t)
-    M=np.insert(M,[np.shape(M)[1]], sin_tot,axis=1)
+       sin_tot[x]+=coef[0][k]*np.sin(k*np.pi/2*x/100)*np.exp(-alpha0*(np.pi/2*k)**2*t*dt)
+    
+    M = np.insert(M,np.shape(M)[1], sin_tot,axis=1)
     sin_tot=np.sin(0*x)
 
+print(np.shape(sin_tot))
 
 print(M)
 
-#tab(M)
-"""
+tab(M)

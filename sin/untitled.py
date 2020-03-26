@@ -20,7 +20,7 @@ def import_tableau_float_csv(filename):
 
 
 
-precision = input("nombre de sinus: ")+1
+precision = int(input("nombre de sinus: "))+1
 
 vecteur= np.array(import_tableau_float_csv('vecteur.csv'))
 x = np.array(range(200))
@@ -33,8 +33,7 @@ sin_tot=np.zeros( (1, 200) )
 
 
 for k in k_v:
-	for i in range(200):
-		vec_sin[0][i]=np.sin(k*np.pi*i/200)
+	vec_sin[0][x]=np.sin(k*np.pi*x/200)
 	coef[0][k]= vec_sin.dot(vecteur)*0.01
 
 print(coef)

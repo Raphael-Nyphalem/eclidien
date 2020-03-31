@@ -48,6 +48,7 @@ def tab(matrice):
 precision = 14#int(input("nombre de sinus: "))+1
 
 vecteur= np.array(import_tableau_float_csv('vecteur.csv'))
+print(vecteur)
 x = np.array(range(200))
 vec_sin=np.zeros( (1, 200) )
 coef=np.zeros( (1, precision) )
@@ -84,8 +85,9 @@ print(np.shape(M))
 dt = 0.0001
 for t in range(0,10000,100):
     for k in k_v:
-       sin_tot[x]+=coef[0][k]*np.sin(k*np.pi/2*x/100)*np.exp(-alpha0*(np.pi/2*k)**2*t*dt)
-    
+        sin_tot[x]+=coef[0][k]*np.sin(k*np.pi/2*x/100)*np.exp(-alpha0*(np.pi/2*k)**2*t*dt)
+
+    sin_tot[199]=0.0    
     M = np.insert(M,np.shape(M)[1], sin_tot,axis=1)
     sin_tot=np.sin(0*x)
 
